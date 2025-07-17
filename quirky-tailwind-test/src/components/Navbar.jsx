@@ -13,53 +13,54 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <header className="bg-white shadow-md">
-      <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-        {/* Logo */}
-        <Link to="/" className="text-2xl font-bold text-blue-600">
-          Quirky Roomie
+    <header className={`shadow-md transition-colors duration-300 ${isOpen ? "bg-green-100" : "bg-white"}`}>
+  <div className="max-w-6xl mx-auto px-4 py-6 flex justify-between items-center">
+    {/* Logo */}
+    <Link to="/" className="text-3xl text-blue-600 font-chewy font-bold">
+      Quirky Roomie
+    </Link>
+
+    {/* Desktop Navigation */}
+    <nav className="hidden md:flex space-x-6 font-nunito">
+      {navigation.map(({ name, path }) => (
+        <Link
+          key={name}
+          to={path}
+          className="text-gray-700 hover:text-purple-600 font-medium"
+        >
+          {name}
         </Link>
+      ))}
+    </nav>
 
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex bg-yelloe-600 space-x-6">
-          {navigation.map(({ name, path }) => (
-            <Link
-              key={name}
-              to={path}
-              className="text-gray-700 hover:text-blue-500 font-medium"
-            >
-              {name}
-            </Link>
-          ))}
-        </nav>
+    {/* Mobile Hamburger Icon*/}
+    <div className="md:hidden">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="text-gray-600 text-2xl"
+      >
+        {isOpen ? "✕" : "☰"}
+      </button>
+    </div>
+  </div>
 
-        {/* Mobile Hamburger Icon */}
-        <div className="md:hidden">
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="text-gray-600 text-2xl"
-          >
-            {isOpen ? "✕" : "☰"}
-          </button>
-        </div>
-      </div>
+  {/* Mobile Menu */}
+  {isOpen && (
+    <nav className="md:hidden px-4 pb-4 bg-white border-t font-nunito">
+      {navigation.map(({ name, path }) => (
+        <Link
+          key={name}
+          to={path}
+          onClick={() => setIsOpen(false)}
+          className="block py-2 text-gray-700 hover:bg-purple-100 rounded"
+        >
+          {name}
+        </Link>
+      ))}
+    </nav>
+  )}
+</header>
 
-      {/* Mobile Menu */}
-      {isOpen && (
-        <nav className="md:hidden px-4 pb-4 bg-white border-t bg-green-100">
-          {navigation.map(({ name, path }) => (
-            <Link
-              key={name}
-              to={path}
-              onClick={() => setIsOpen(false)}
-              className="block py-2 text-gray-700 hover:bg-gray-100 rounded"
-            >
-              {name}
-            </Link>
-          ))}
-        </nav>
-      )}
-    </header>
   );
 };
 

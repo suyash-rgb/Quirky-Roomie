@@ -1,6 +1,7 @@
 import { useState } from "react";
+import { login } from "../services/api";
 
-const LoginForm = () => {
+const LoginPage = () => {
   const [credentials, setCredentials] = useState({
     email: "",
     password: ""
@@ -13,10 +14,20 @@ const LoginForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login Credentials:", credentials);
-    alert("Login successful (mock)");
+
+    try {
+      const response = await login(credentials);
+      console.log("Login successful:", response.data);
+      alert("Login successful!");
+      localStorage.setItem("token", response.data.token);
+      // Redirect or show dashboard
+
+    } catch (error) {
+      console.error("Login failed:", error.response?.data || error.message);
+      alert("Login failed. Please check your credentials.");
+    }
   };
 
   return (
@@ -48,4 +59,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm;
+export default LoginPage;

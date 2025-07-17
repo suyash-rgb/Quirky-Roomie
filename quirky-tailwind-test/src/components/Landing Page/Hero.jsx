@@ -15,9 +15,21 @@ const Hero = () => {
         transition={{ duration: 1.5, ease: "easeOut" }}
       /> */}
 
+      {/* SVG Background */}
+      <svg
+        className="absolute top-0 left-0 w-full h-full -z-10"
+        viewBox="0 0 1440 320"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fill="#A855F7"
+          d="M0,32L60,53.3C120,75,240,117,360,122.7C480,128,600,96,720,101.3C840,107,960,149,1080,176C1200,203,1320,213,1380,218.7L1440,224V0H1380C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0H0Z"
+        />
+      </svg>
+
       {/* Headline */}
       <motion.h1
-        className="text-6xl font-extrabold mb-4 text-electric-purple"
+        className="font-heading text-6xl font-extrabold mb-4 text-electric-purple"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
@@ -27,7 +39,7 @@ const Hero = () => {
 
       {/* Subtext */}
       <motion.p
-        className="text-xl mb-8 max-w-2xl mx-auto"
+        className="font-body text-xl mb-8 max-w-2xl mx-auto"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5, duration: 1 }}

@@ -6,8 +6,13 @@ const api = axios.create({
 });
 
 // Auth
-export const register = data => api.post('/auth/register', data);
-export const login = data => api.post('/auth/login', data);
+export const register = (signupData) => {
+  return api.post('/auth/register', signupData);
+};
+
+export const login = (loginData) => {
+  return api.post('/auth/login', loginData);
+};
 
 // Complaints
 export const getComplaints = () => api.get('/complaints');

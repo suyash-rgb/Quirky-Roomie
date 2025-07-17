@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { register } from "../services/api";
 
-const SignUpForm = () => {
+
+const SignUpPage = () => {
   const [formData, setFormData] = useState({
-    fullName: "",
+    name: "",
     email: "",
     password: "",
     flatCode: ""
@@ -15,10 +17,27 @@ const SignUpForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Signup Data:", formData);
-    alert("Sign-up successful (mock)");
+
+  const signupData = {
+    name: formData.name,
+    email: formData.email,
+    password: formData.password,
+    flatCode: formData.flatCode
+  };
+
+  console.log("Signup Data:", signupData);
+  
+  try {
+      const response = await register(signupData);
+      console.log("Signup successful:", response.data);
+      alert("Sign-up successful!");
+      // optionally redirect to login or dashboard
+    } catch (error) {
+      console.error("Signup failed:", error.response?.data || error.message);
+      alert("Sign-up failed. Please try again.");
+    }
   };
 
   return (
@@ -26,10 +45,10 @@ const SignUpForm = () => {
       <h2 className="text-2xl font-bold text-center mb-4">Create Account</h2>
 
       <input
-        name="fullName"
+        name="name"
         type="text"
         placeholder="Full Name"
-        value={formData.fullName}
+        value={formData.name}
         onChange={handleChange}
         className="w-full p-2 border rounded"
       />
@@ -68,4 +87,4 @@ const SignUpForm = () => {
   );
 };
 
-export default SignUpForm;
+export default SignUpPage;
