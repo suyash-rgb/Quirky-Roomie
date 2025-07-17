@@ -4,7 +4,7 @@ import { useAuth } from '../context/useAuth';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { token, logout } = useAuth();
+  const { authToken, logout } = useAuth();   // ← destructure authToken
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -32,7 +32,7 @@ const Navbar = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-6 font-nunito items-center">
-          {(token ? protectedLinks : publicLinks).map(({ name, path }) => (
+          {(authToken ? protectedLinks : publicLinks).map(({ name, path }) => (
             <Link
               key={name}
               to={path}
@@ -42,7 +42,7 @@ const Navbar = () => {
             </Link>
           ))}
 
-          {token && (
+          {authToken && (
             <button
               onClick={handleLogout}
               className="ml-4 text-red-600 hover:text-red-800 font-medium"
@@ -52,7 +52,7 @@ const Navbar = () => {
           )}
         </nav>
 
-        {/* Mobile Hamburger Icon*/}
+        {/* Mobile Hamburger Icon */}
         <div className="md:hidden">
           <button
             onClick={() => setIsOpen(!isOpen)}
@@ -66,7 +66,7 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {isOpen && (
         <nav className="md:hidden px-4 pb-4 bg-white border-t font-nunito">
-          {(token ? protectedLinks : publicLinks).map(({ name, path }) => (
+          {(authToken ? protectedLinks : publicLinks).map(({ name, path }) => (
             <Link
               key={name}
               to={path}
@@ -77,7 +77,7 @@ const Navbar = () => {
             </Link>
           ))}
 
-          {token && (
+          {authToken && (
             <button
               onClick={() => {
                 handleLogout();

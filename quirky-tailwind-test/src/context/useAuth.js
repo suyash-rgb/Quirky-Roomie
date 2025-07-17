@@ -3,4 +3,3 @@ import AuthContext from "./AuthContext";
 
 export const useAuth = () => useContext(AuthContext);
 
-export default useAuth;

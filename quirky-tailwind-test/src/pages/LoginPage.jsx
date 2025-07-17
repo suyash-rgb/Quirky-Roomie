@@ -4,7 +4,7 @@ import { login as loginApi } from "../services/api";
 import { useAuth } from '../context/useAuth';
 
 const LoginPage = () => {
-  const { login } = useAuth(); 
+  const { login, setUser } = useAuth(); 
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
     email: "",
@@ -19,18 +19,21 @@ const LoginPage = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await loginApi(credentials); 
-      console.log("Login successful:", response.data);
+  e.preventDefault();
+  try {
+    const response = await loginApi(credentials); 
+    console.log("Login successful:", response.data);
 
-      login(response.data.token);
-      navigate("/dashboard");
-    } catch (error) {
-      console.error("Login failed:", error.response?.data || error.message);
-      alert("Login failed. Please check your credentials.");
-    }
-  };
+    login(response.data.token);                       // sets authToken in context + localStorage
+    setUser(response.data.user);                      // sets user in context
+    localStorage.setItem("user", JSON.stringify(response.data.user)); 
+    navigate("/dashboard");
+  } catch (error) {
+    console.error("Login failed:", error.response?.data || error.message);
+    alert("Login failed. Please check your credentials.");
+  }
+};
+
 
   return (
     <form onSubmit={handleSubmit} className="mt-24 space-y-4 max-w-md mx-auto p-6 bg-white rounded shadow">
