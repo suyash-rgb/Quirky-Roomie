@@ -1,5 +1,5 @@
 require('dotenv').config();
-const { generatePunishment } = require('./automatedPunishmentGenerator');
+const { generatePunishment } = require('../util/automatedPunishmentGenerator');
 
 (async () => {
   const testComplaintTitle = "Left trash in the hallway again!";

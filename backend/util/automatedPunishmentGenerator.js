@@ -12,7 +12,7 @@ async function generatePunishment(complaintTitle) {
     - Didn’t clean the dishes? You’re making chai for everyone for a week.
     - Blasted loud music at 2 AM? You owe everyone samosas.
 
-    Your response should be a **single-line punishment only**, nothing else.
+    Your response should be a **single-line punishment only**, and it should include **emojis or emoticons** to make it more fun. No extra explanations or text.
   `;
 
   try {
