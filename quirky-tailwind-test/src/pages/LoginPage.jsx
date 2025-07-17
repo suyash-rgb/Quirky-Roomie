@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { login as loginApi } from "../services/api"; // 👈 Rename API login
-import { useAuth } from "../context/AuthContext";
+import { login as loginApi } from "../services/api";
+import { useAuth } from '../context/useAuth';
 
 const LoginPage = () => {
-  const { login } = useAuth(); // 👈 This is the context login
+  const { login } = useAuth(); 
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
     email: "",
@@ -20,12 +20,11 @@ const LoginPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const response = await loginApi(credentials); // 👈 Use renamed API call
+      const response = await loginApi(credentials); 
       console.log("Login successful:", response.data);
 
-      login(response.data.token); // 👈 Context login stores token
+      login(response.data.token);
       navigate("/dashboard");
     } catch (error) {
       console.error("Login failed:", error.response?.data || error.message);

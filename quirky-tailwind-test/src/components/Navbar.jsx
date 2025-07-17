@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext"; // Adjust path as needed
+import { useAuth } from '../context/useAuth';
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -6,23 +6,32 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Landing from './pages/Landing';
 import Listings from './pages/Listings';
 import LogComplaintPage from './pages/LogComplaintPage';
+import PrivateRoute from "./components/ProtectedRoute";
 
 function App() {
 
 
   return (
-    <Router>
+    <>
       <Navbar />
       <Routes>
         <Route path="/" element={<Landing />} />
         {/* Future: Listings, Login, Register routes */}
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/log-complaint" element={<LogComplaintPage />} />
-        <Route path="/dashboard" element={<Listings />} />
+        <Route path="/log-complaint" element={
+          <PrivateRoute>
+            <LogComplaintPage />
+          </PrivateRoute>
+        } />
+        <Route path="/dashboard" element={
+          <PrivateRoute>
+            <Listings />
+          </PrivateRoute>
+        } />
 
       </Routes>
-    </Router>
+    </>
   )
 }
 
