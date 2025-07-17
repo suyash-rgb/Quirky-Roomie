@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { login } from "../services/api";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
     email: "",
     password: ""
@@ -22,8 +24,7 @@ const LoginPage = () => {
       console.log("Login successful:", response.data);
       alert("Login successful!");
       localStorage.setItem("token", response.data.token);
-      // Redirect or show dashboard
-
+      navigate("/dashboard");
     } catch (error) {
       console.error("Login failed:", error.response?.data || error.message);
       alert("Login failed. Please check your credentials.");

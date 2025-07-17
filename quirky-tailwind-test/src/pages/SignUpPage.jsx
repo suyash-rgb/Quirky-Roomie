@@ -1,8 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { register } from "../services/api";
 
 
 const SignUpPage = () => {
+  const navigate = useNavigate(); 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -33,7 +35,7 @@ const SignUpPage = () => {
       const response = await register(signupData);
       console.log("Signup successful:", response.data);
       alert("Sign-up successful!");
-      // optionally redirect to login or dashboard
+      navigate("/login");
     } catch (error) {
       console.error("Signup failed:", error.response?.data || error.message);
       alert("Sign-up failed. Please try again.");
