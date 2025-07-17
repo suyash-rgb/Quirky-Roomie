@@ -25,4 +25,5 @@ async function generatePunishment(complaintTitle) {
   }
 }
 
-module.exports = generatePunishment;
+module.exports = { generatePunishment };
+
