@@ -22,6 +22,19 @@ const complaintSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
+  },
+  votes: {
+    type: Number,
+    default: 0
+  },
+  flatCode: {
+    type: String,
+    required: true
+  },
+  resolvedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null
   }
 });
 
