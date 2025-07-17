@@ -1,44 +1,39 @@
 import React, { useEffect, useState } from 'react';
+import { useAuth } from "../context/AuthContext";
 import { motion } from 'framer-motion';
+
 import {
   getComplaints,
   voteComplaint,
-  logComplaint,       
+  logComplaint,
   getLeaderboard,
   getFlatStats
 } from '../services/api';
 
 const Listings = () => {
+  const { token } = useAuth();
   const [complaints, setComplaints] = useState([]);
-  const [trending, setTrending] = useState([]);        // Problem of the Week
+  const [trending, setTrending] = useState([]);
   const [leaderboard, setLeaderboard] = useState([]);
   const [stats, setStats] = useState({});
-  const flatCode = localStorage.getItem('flatCode');   // or from user context
+  const flatCode = localStorage.getItem('flatCode');
 
-  // Fetch all data
   useEffect(() => {
-    const fetchAll = async () => {
-      try {
-        const res = await getComplaints();
-        setComplaints(res.data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
     fetchAll();
-  }, []);
+  }, [token]);
 
   const fetchAll = async () => {
     try {
       const [complaintsRes, leadRes, statsRes] = await Promise.all([
-        getComplaints(),
-        getLeaderboard(),
-        getFlatStats(flatCode)
+        getComplaints(token),
+        getLeaderboard(token),
+        getFlatStats(flatCode, token)
       ]);
+
       setComplaints(complaintsRes.data);
       setLeaderboard(leadRes.data.leaderboard);
       setStats(statsRes.data);
-      // Problem of the Week: top-voted active complaint
+
       setTrending(
         complaintsRes.data
           .slice()
@@ -53,7 +48,7 @@ const Listings = () => {
 
   const handleVote = async (id, type) => {
     try {
-      await voteComplaint(id, type);
+      await voteComplaint(id, type, token);
       fetchAll();
     } catch (err) {
       console.error('Vote error:', err);
@@ -62,7 +57,7 @@ const Listings = () => {
 
   const handleResolve = async (id) => {
     try {
-      await logComplaint({ id }); // call the resolve endpoint
+      await logComplaint({ id }, token);
       fetchAll();
     } catch (err) {
       console.error('Resolve error:', err);
@@ -72,8 +67,6 @@ const Listings = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4">
       <div className="max-w-6xl mx-auto grid lg:grid-cols-3 gap-8">
-
-        {/* Main Feed */}
         <section className="lg:col-span-2 space-y-6">
           <h1 className="text-4xl font-chewy text-purple-600 mb-4">Flat Complaints</h1>
 
@@ -84,7 +77,7 @@ const Listings = () => {
           {complaints.map(c => (
             <motion.div
               key={c._id}
-              className={`p-6 bg-white rounded-xl shadow-lg flex flex-col`}
+              className="p-6 bg-white rounded-xl shadow-lg flex flex-col"
               whileHover={{ scale: 1.02 }}
             >
               <div className="flex justify-between items-start">
@@ -123,10 +116,7 @@ const Listings = () => {
           ))}
         </section>
 
-        {/* Sidebar */}
         <aside className="space-y-8">
-
-          {/* Problem of the Week */}
           <div className="bg-white p-6 rounded-xl shadow-lg">
             <h3 className="font-chewy text-2xl text-yellow-500 mb-3">Problem of the Week</h3>
             {trending[0] ? (
@@ -136,20 +126,18 @@ const Listings = () => {
             )}
           </div>
 
-          {/* Leaderboard */}
           <div className="bg-white p-6 rounded-xl shadow-lg">
             <h3 className="font-chewy text-2xl text-teal-500 mb-3">Leaderboard</h3>
             <ol className="list-decimal list-inside space-y-1 font-nunito">
-              {leaderboard.map((u, idx) => (
+              {leaderboard.map((u) => (
                 <li key={u._id} className="flex justify-between">
                   <span>{u.name}</span>
-                  <span className="font-semibold">{u.karma}</span>
+                  <span className="font-semibold">{u.karma} ⭐</span>
                 </li>
               ))}
             </ol>
           </div>
 
-          {/* Flat Stats */}
           <div className="bg-white p-6 rounded-xl shadow-lg">
             <h3 className="font-chewy text-2xl text-pink-500 mb-3">Flat Stats</h3>
             <ul className="space-y-2 text-gray-700 font-nunito">

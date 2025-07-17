@@ -1,9 +1,11 @@
 import axios from 'axios';
+import { useAuth } from "../context/AuthContext";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
   headers: { 'Content-Type': 'application/json' },
 });
+
 
 // Auth
 export const register = (signupData) => {
@@ -15,10 +17,29 @@ export const login = (loginData) => {
 };
 
 // Complaints
-export const getComplaints = () => api.get('/complaints');
-export const logComplaint = data => api.post('/complaints', data);
-export const voteComplaint = (id, type) => api.put(`/complaints/${id}/vote`, { voteType: type });
+export const getComplaints = (token) =>
+  api.get('/complaints', {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  
+export const logComplaint = (data, token) =>
+  api.post('/complaints/resolve', data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+export const voteComplaint = (id, type, token) =>
+  api.post(`/complaints/${id}/vote`, { type }, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
 
 // Leaderboard & Stats
-export const getLeaderboard = () => api.get('/leaderboard');
-export const getFlatStats = (flatCode) => api.get(`/flat/stats?flatCode=${flatCode}`);
+export const getLeaderboard = (token) =>
+  api.get('/leaderboard', {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  
+export const getFlatStats = (flatCode, token) =>
+  api.get(`/stats/${flatCode}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });

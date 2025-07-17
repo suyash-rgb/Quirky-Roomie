@@ -1,8 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login } from "../services/api";
+import { AuthProvider } from '../context/AuthContext';
+import { useAuth } from "../context/AuthContext";  
+
 
 const LoginPage = () => {
+  const { login } = useAuth();
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
     email: "",
@@ -23,7 +27,8 @@ const LoginPage = () => {
       const response = await login(credentials);
       console.log("Login successful:", response.data);
       alert("Login successful!");
-      localStorage.setItem("token", response.data.token);
+      login(response.data.token); // Store token in context
+      localStorage.setItem("token", response.data.token); // Store token in local storage
       navigate("/dashboard");
     } catch (error) {
       console.error("Login failed:", error.response?.data || error.message);
