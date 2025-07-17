@@ -4,6 +4,7 @@ import LoginPage from "./pages/LoginPage";
 import Navbar from "./components/Navbar";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Landing from './pages/Landing';
+import Listings from './pages/Listings';
 import LogComplaintPage from './pages/LogComplaintPage';
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/log-complaint" element={<LogComplaintPage />} />
-        
+        <Route path="/dashboard" element={<Listings />} />
 
       </Routes>
     </Router>
