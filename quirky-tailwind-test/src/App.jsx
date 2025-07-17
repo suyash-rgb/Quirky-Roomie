@@ -1,13 +1,14 @@
 import './App.css'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Landing from './pages/Landing';
-import LogComplaintPage from "./pages/LogComplaintPage";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
 import Navbar from "./components/Navbar";
-
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Landing from './pages/Landing';
+import LogComplaintPage from './pages/LogComplaintPage';
 
 function App() {
+
+
   return (
     <Router>
       <Navbar />
@@ -21,7 +22,6 @@ function App() {
 
       </Routes>
     </Router>
-
   )
 }
 
