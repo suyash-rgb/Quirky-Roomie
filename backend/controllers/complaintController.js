@@ -78,8 +78,16 @@ const voteComplaint = async (req, res) => {
       return res.status(404).json({ message: 'Complaint not found' });
     }
 
-    const hasUpvoted = complaint.upvotedBy.includes(userId);
-    const hasDownvoted = complaint.downvotedBy.includes(userId);
+    // Ensure upvotedBy and downvotedBy arrays exist
+    if (!Array.isArray(complaint.upvotedBy)) {
+      complaint.upvotedBy = [];
+    }
+    if (!Array.isArray(complaint.downvotedBy)) {
+      complaint.downvotedBy = [];
+    }
+
+    const hasUpvoted = complaint.upvotedBy.includes(userId); 
+    const hasDownvoted = complaint.downvotedBy.includes(userId); //
 
     if (voteType === 'upvote') {
       if (hasUpvoted) {
@@ -92,6 +100,7 @@ const voteComplaint = async (req, res) => {
       }
       complaint.upvotedBy.push(userId);
       complaint.votes += 1;
+
     } else if (voteType === 'downvote') {
       if (hasDownvoted) {
         return res.status(400).json({ message: 'You have already downvoted this complaint.' });
@@ -108,7 +117,13 @@ const voteComplaint = async (req, res) => {
     }
 
     await complaint.save();
-    res.status(200).json({ message: 'Vote registered', votes: complaint.votes });
+    
+    res.status(200).json({ 
+      message: 'Vote registered', 
+      votes: complaint.votes,
+      upvotedBy: complaint.upvotedBy.length,
+      downvotedBy: complaint.downvotedBy.length
+    });
   } catch (err) {
     console.error('Vote error:', err);
     res.status(500).json({ message: 'Server error' });

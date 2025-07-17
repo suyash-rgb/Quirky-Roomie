@@ -24,18 +24,18 @@ const complaintSchema = new mongoose.Schema({
     default: Date.now
   },
   votes: {
-    type: Number,
-    default: 0
+  type: Number,
+  default: 0
   },
-  flatCode: {
-    type: String,
-    required: true
-  },
-  resolvedBy: {
+  upvotedBy: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    default: null
-  }
+    default: []
+  }],
+  downvotedBy: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }]
 });
 
 module.exports = mongoose.model('Complaint', complaintSchema);

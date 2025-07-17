@@ -11,6 +11,15 @@ exports.getFlatStats = async (req, res) => {
   }
 
   try {
+    const userIds = await User.find({ flatCode }).distinct('_id');
+
+    if (!userIds.length) {
+      return res.status(404).json({
+        success: false,
+        message: `No users found for flatCode '${flatCode}'`
+      });
+    }
+
     const totalComplaints = await Complaint.countDocuments({
       user: { $in: await User.find({ flatCode }).distinct('_id') }
     });

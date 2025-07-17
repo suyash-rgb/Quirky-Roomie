@@ -21,7 +21,7 @@ router.get('/', getAllActiveComplaints);
 router.put('/:id/resolve', requireAuth, resolveComplaint);
 
 // Vote (authenticated)
-router.post('/:id/vote', requireAuth, voteComplaint);
+router.put('/:id/vote', requireAuth, voteComplaint);
 
 // Trending complaints
 router.get('/trending', getTrendingComplaints);
