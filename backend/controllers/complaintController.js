@@ -71,6 +71,8 @@ const voteComplaint = async (req, res) => {
   const { id } = req.params;
   const { voteType } = req.body; // 'upvote' or 'downvote'
   const userId = req.user._id;
+  console.log(req.body);  // log the body
+  console.log(req.headers.authorization); // check if token is present
 
   try {
     const complaint = await Complaint.findById(id);

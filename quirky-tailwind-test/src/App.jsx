@@ -10,7 +10,6 @@ import PrivateRoute from "./components/ProtectedRoute";
 
 function App() {
 
-
   return (
     <>
       <Navbar />

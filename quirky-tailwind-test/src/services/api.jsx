@@ -20,16 +20,30 @@ export const getComplaints = (token) =>
   api.get('/complaints', {
     headers: { Authorization: `Bearer ${token}` },
   });
-  
+   
 export const logComplaint = (data, token) =>
   api.post('/complaints/resolve', data, {
     headers: { Authorization: `Bearer ${token}` },
   });
 
-export const voteComplaint = (id, type, token) =>
-  api.post(`/complaints/${id}/vote`, { type }, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+export const voteComplaint = async (id, voteType, token) => {
+  const url = `${api.defaults.baseURL}/complaints/${id}/vote`;
+  console.log(`Calling: ${url}`);
+  console.log('Body:', { voteType });
+  console.log('Token:', token);
+
+  return api.put(
+    `/complaints/${id}/vote`,
+    { voteType },
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+};
+
+
 
 
 // Leaderboard & Stats

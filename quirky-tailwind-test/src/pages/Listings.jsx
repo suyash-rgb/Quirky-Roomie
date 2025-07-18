@@ -11,7 +11,7 @@ import {
 } from '../services/api';
 
 const Listings = () => {
-  const { token } = useAuth();
+  const { authToken } = useAuth();
   const [complaints, setComplaints] = useState([]);
   const [trending, setTrending] = useState([]);
   const [leaderboard, setLeaderboard] = useState([]);
@@ -20,14 +20,14 @@ const Listings = () => {
 
   useEffect(() => {
     fetchAll();
-  }, [token]);
+  }, [authToken]);
 
   const fetchAll = async () => {
     try {
       const [complaintsRes, leadRes, statsRes] = await Promise.all([
-        getComplaints(token),
-        getLeaderboard(token),
-        getFlatStats(flatCode, token)
+        getComplaints(authToken),
+        getLeaderboard(authToken),
+        flatCode ? getFlatStats(flatCode, authToken) : Promise.resolve({ data: {} })
       ]);
 
       setComplaints(complaintsRes.data);
@@ -48,7 +48,7 @@ const Listings = () => {
 
   const handleVote = async (id, type) => {
     try {
-      await voteComplaint(id, type, token);
+      await voteComplaint(id, type, authToken);
       fetchAll();
     } catch (err) {
       console.error('Vote error:', err);
@@ -57,7 +57,7 @@ const Listings = () => {
 
   const handleResolve = async (id) => {
     try {
-      await logComplaint({ id }, token);
+      await logComplaint({ id }, authToken);
       fetchAll();
     } catch (err) {
       console.error('Resolve error:', err);
