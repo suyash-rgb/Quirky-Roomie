@@ -109,7 +109,7 @@ const voteComplaint = async (req, res) => {
       complaint.upvotedBy.push(voterId);
       complaint.votes += 1;
 
-      // 💥 Reward complaint creator with karma
+      // Reward complaint creator with karma
       await User.findByIdAndUpdate(complaint.user, { $inc: { karma: 1 } });
 
     } else if (voteType === 'downvote') {

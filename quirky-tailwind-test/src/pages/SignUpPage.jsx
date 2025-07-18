@@ -22,6 +22,24 @@ const SignUpPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+  const { name, email, password, flatCode } = formData;
+
+  if (!name || !email || !password || !flatCode) {
+    alert("All fields are required.");
+    return;
+  }
+
+  if (!/\S+@\S+\.\S+/.test(email)) {
+    alert("Please enter a valid email.");
+    return;
+  }
+
+  if (password.length < 6) {
+    alert("Password must be at least 6 characters.");
+    return;
+  }
+
+
   const signupData = {
     name: formData.name,
     email: formData.email,
@@ -44,11 +62,24 @@ const SignUpPage = () => {
 
   return (
     <form onSubmit={handleSubmit} className="mt-24 space-y-4 max-w-md mx-auto p-6 bg-white rounded shadow">
+      {/* SVG Background */}
+      <svg
+        className="absolute top-0 left-0 w-full h-full -z-10"
+        viewBox="0 0 1440 320"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fill="#A855F7"
+          d="M0,32L60,53.3C120,75,240,117,360,122.7C480,128,600,96,720,101.3C840,107,960,149,1080,176C1200,203,1320,213,1380,218.7L1440,224V0H1380C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0H0Z"
+        />
+      </svg>
       <h2 className="text-2xl font-bold text-center mb-4">Create Account</h2>
 
       <input
         name="name"
         type="text"
+        required
+        pattern="^[A-Za-z\s]+$"
         placeholder="Full Name"
         value={formData.name}
         onChange={handleChange}
@@ -58,6 +89,8 @@ const SignUpPage = () => {
       <input
         name="email"
         type="email"
+        required
+        pattern="^[\\w.%+-]+@(gmail\\.com|yahoo\\.com|outlook\\.com|hotmail\\.com|icloud\\.com|protonmail\\.com|aol\\.com|zoho\\.com)$"
         placeholder="Email"
         value={formData.email}
         onChange={handleChange}
@@ -67,6 +100,8 @@ const SignUpPage = () => {
       <input
         name="password"
         type="password"
+        required
+        minLength="6"
         placeholder="Password"
         value={formData.password}
         onChange={handleChange}
