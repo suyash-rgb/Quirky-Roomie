@@ -43,7 +43,11 @@ export const voteComplaint = async (id, voteType, token) => {
   );
 };
 
-
+//to resolve a complaint
+export const resolveComplaint = (id, token) =>
+  api.put(`/complaints/${id}/resolve`, {}, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
 
 
 // Leaderboard & Stats

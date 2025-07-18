@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import {
   getComplaints,
   voteComplaint,
-  logComplaint,
+  resolveComplaint,
   getLeaderboard,
   getFlatStats
 } from '../services/api';
@@ -57,7 +57,7 @@ const Listings = () => {
 
   const handleResolve = async (id) => {
     try {
-      await logComplaint({ id }, authToken);
+      await resolveComplaint(id, authToken);
       fetchAll();
     } catch (err) {
       console.error('Resolve error:', err);
