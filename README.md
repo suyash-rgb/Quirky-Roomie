@@ -28,7 +28,7 @@ Quirky Roomie lets flatmates:
 
 ## Installation & Setup
 
-### 1. Backend
+### 1. Backend Setup Guide (Node.js + Express + Gemini API)
 
 ```bash
 # Clone and enter backend directory
@@ -43,6 +43,7 @@ cat > .env <<EOF
 MONGO_URI=<your-mongo-uri>
 JWT_SECRET=<your-jwt-secret>
 PORT=5000
+GEMINI_API_KEY=<your-gemini-api-key>
 EOF
 
 # Start server
