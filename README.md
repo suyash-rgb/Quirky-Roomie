@@ -32,7 +32,7 @@ Quirky Roomie lets flatmates:
 
 ```bash
 # Clone and enter backend directory
-git clone <repo-url> quirkyroomie
+git clone https://github.com/suyash-rgb/Quirky-Roomie.git
 cd quirkyroomie/backend
 
 # Install dependencies
