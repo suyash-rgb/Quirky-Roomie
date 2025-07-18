@@ -58,6 +58,6 @@ export const getLeaderboard = (token) =>
   });
   
 export const getFlatStats = (flatCode, token) =>
-  api.get(`/stats/${flatCode}`, {
-    headers: { Authorization: `Bearer ${token}` },
+  api.get(`/flat/stats?flatCode=${flatCode}`, {
+    headers: { Authorization: `Bearer ${token}` }
   });

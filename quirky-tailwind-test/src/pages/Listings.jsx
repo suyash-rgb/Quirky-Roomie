@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/useAuth';
 import { motion } from 'framer-motion';
+import DashboardSidebar from "../components/Listings/DashboardSidebar";
+
 
 import {
   getComplaints,
@@ -116,37 +118,8 @@ const Listings = () => {
           ))}
         </section>
 
-        <aside className="space-y-8">
-          <div className="bg-white p-6 rounded-xl shadow-lg">
-            <h3 className="font-chewy text-2xl text-yellow-500 mb-3">Problem of the Week</h3>
-            {trending[0] ? (
-              <p className="text-gray-800">“{trending[0].title}” with {trending[0].votes} upvotes</p>
-            ) : (
-              <p className="text-gray-500">No trending issues yet.</p>
-            )}
-          </div>
+        <DashboardSidebar leaderboard={leaderboard} />
 
-          <div className="bg-white p-6 rounded-xl shadow-lg">
-            <h3 className="font-chewy text-2xl text-teal-500 mb-3">Leaderboard</h3>
-            <ol className="list-decimal list-inside space-y-1 font-nunito">
-              {leaderboard.map((u) => (
-                <li key={u._id} className="flex justify-between">
-                  <span>{u.name}</span>
-                  <span className="font-semibold">{u.karma} ⭐</span>
-                </li>
-              ))}
-            </ol>
-          </div>
-
-          <div className="bg-white p-6 rounded-xl shadow-lg">
-            <h3 className="font-chewy text-2xl text-pink-500 mb-3">Flat Stats</h3>
-            <ul className="space-y-2 text-gray-700 font-nunito">
-              <li>Total complaints: <strong>{stats.totalComplaints}</strong></li>
-              <li>Resolved: <strong>{stats.resolvedComplaints}</strong></li>
-              <li>Top category: <strong>{stats.commonComplaintTitles?.[0]?._id || '—'}</strong></li>
-            </ul>
-          </div>
-        </aside>
       </div>
     </div>
   );

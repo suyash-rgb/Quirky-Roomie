@@ -27,6 +27,7 @@ const LoginPage = () => {
     login(response.data.token);                       // sets authToken in context + localStorage
     setUser(response.data.user);                      // sets user in context
     localStorage.setItem("user", JSON.stringify(response.data.user)); 
+    localStorage.setItem("flatCode", response.data.user.flatCode);
     navigate("/dashboard");
   } catch (error) {
     console.error("Login failed:", error.response?.data || error.message);
