@@ -7,12 +7,7 @@ const LogComplaintPage = () => (
     <main className="flex-grow py-10 overflow-auto">
       <ComplaintForm />
     </main>
-    
-    <div className="w-full">
-     {/* Footer content */}
-      <Footer />
-    </div>
-
+    <Footer />
   </div>
 );
 

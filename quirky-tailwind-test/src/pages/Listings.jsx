@@ -3,8 +3,8 @@ import { useAuth } from '../context/useAuth';
 import { motion } from 'framer-motion';
 import DashboardSidebar from "../components/Listings/DashboardSidebar";
 import { ArrowUpIcon, ArrowDownIcon } from '@heroicons/react/24/solid';
-
-
+import { toast } from 'react-toastify';
+import Footer from "../components/Footer";
 
 import {
   getComplaints,
@@ -13,7 +13,7 @@ import {
   getLeaderboard,
   getFlatStats
 } from '../services/api';
-import Footer from '../components/Footer';
+
 
 const Listings = () => {
   const { authToken } = useAuth();
@@ -54,23 +54,27 @@ const Listings = () => {
   const handleVote = async (id, type) => {
     try {
       await voteComplaint(id, type, authToken);
+      toast.success("Vote registered!");
       fetchAll();
     } catch (err) {
       console.error('Vote error:', err);
+      toast.error(err.response?.data?.message || "Voting failed.");
     }
   };
 
   const handleResolve = async (id) => {
     try {
       await resolveComplaint(id, authToken);
+      toast.success("Complaint resolved!");
       fetchAll();
     } catch (err) {
       console.error('Resolve error:', err);
+      toast.error(err.response?.data?.message || "Resolution failed.");
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-10 px-4">
+    <div className="w-full min-h-screen bg-gray-50">
       {/* Main content should grow and fill available space */}
      <main className="flex-grow py-10 px-4">
 
@@ -129,11 +133,7 @@ const Listings = () => {
       </div>
       </main>
 
-      <div className="w-full">
-      {/* footer content */}
-        <Footer/>
-      </div>
-
+      <Footer />
     </div>
     
   );

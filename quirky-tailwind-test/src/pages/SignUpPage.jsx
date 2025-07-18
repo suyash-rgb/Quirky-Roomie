@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { register } from "../services/api";
-
+import { toast } from 'react-toastify';
+import Footer from "../components/Footer";
 
 const SignUpPage = () => {
   const navigate = useNavigate(); 
@@ -52,15 +53,18 @@ const SignUpPage = () => {
   try {
       const response = await register(signupData);
       console.log("Signup successful:", response.data);
-      alert("Sign-up successful!");
+      toast.success("Sign-up successful!");
       navigate("/login");
     } catch (error) {
       console.error("Signup failed:", error.response?.data || error.message);
-      alert("Sign-up failed. Please try again.");
+      toast.error("Sign-up failed. Please try again.");
     }
   };
 
   return (
+    <div className="flex flex-col min-h-screen">
+    <main className="flex-grow">
+
     <form onSubmit={handleSubmit} className="mt-24 space-y-4 max-w-md mx-auto p-6 bg-white rounded shadow">
       {/* SVG Background */}
       <svg
@@ -121,6 +125,11 @@ const SignUpPage = () => {
         Sign Up
       </button>
     </form>
+    </main>
+
+   <Footer />
+  </div>
+
   );
 };
 

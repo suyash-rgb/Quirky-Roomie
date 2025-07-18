@@ -2,7 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login as loginApi } from "../services/api";
 import { useAuth } from '../context/useAuth';
+import { toast } from 'react-toastify';
 import Footer from "../components/Footer";
+
 
 const LoginPage = () => {
   const { login, setUser } = useAuth(); 
@@ -47,12 +49,15 @@ const LoginPage = () => {
     navigate("/dashboard");
   } catch (error) {
     console.error("Login failed:", error.response?.data || error.message);
-    alert("Login failed. Please check your credentials.");
+    toast.error(error.response?.data?.message || "Login failed.");
   }
 };
 
 
   return (
+    <div className="flex flex-col min-h-screen">
+    <main className="flex-grow">
+
     <form onSubmit={handleSubmit} className="mt-24 space-y-4 max-w-md mx-auto p-6 bg-white rounded shadow">
       {/* SVG Background */}
       <svg
@@ -95,7 +100,10 @@ const LoginPage = () => {
       </button>
 
     </form>
-    
+    </main>
+  <Footer />
+</div>
+
   );
 };
 
