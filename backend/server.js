@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const helmet = require('helmet');
 const connectDB = require('./config/db');
@@ -7,7 +9,7 @@ const userRoutes = require('./routes/userRoutes');
 const flatRoutes = require('./routes/flatRoutes');
 
 const cors = require('cors');
-require('dotenv').config();
+
 
 const app = express(); 
 connectDB();

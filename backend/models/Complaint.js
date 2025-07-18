@@ -27,6 +27,10 @@ const complaintSchema = new mongoose.Schema({
   type: Number,
   default: 0
   },
+  punishment: {
+  type: String,
+  default: null
+  },
   upvotedBy: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',

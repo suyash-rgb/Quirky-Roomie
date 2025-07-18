@@ -1,5 +1,6 @@
 const Complaint = require('../models/Complaint');
 const User = require('../models/User');
+const { generatePunishment } = require('../util/automatedPunishmentGenerator');
 
 // POST /api/complaints  
 const fileComplaint = async (req, res) => {
@@ -67,7 +68,7 @@ const resolveComplaint = async (req, res) => {
 
     if (!updated) return res.status(404).json({ message: 'Complaint not found' });
 
-    // 💥 Reward resolver with karma
+    // Reward resolver with karma
     await User.findByIdAndUpdate(resolverId, { $inc: { karma: 3 } });
 
     res.status(200).json(updated);
@@ -103,6 +104,16 @@ const voteComplaint = async (req, res) => {
       complaint.upvotedBy.push(voterId);
       complaint.votes += 1;
 
+      if(complaint.votes >= 10 && !complaint.punishment) 
+      {
+        const autoPunishment = await generatePunishment(complaint.title);
+        if(autoPunishment){
+          complaint.punishment = autoPunishment;
+          await complaint.save();
+        }
+        
+      }
+
       await User.findByIdAndUpdate(complaint.user, { $inc: { karma: 1 } });
 
     } else if (voteType === 'downvote') {
@@ -121,6 +132,7 @@ const voteComplaint = async (req, res) => {
     return res.status(200).json({
       message: 'Vote registered',
       votes: complaint.votes,
+      punishment: complaint.punishment || null,
       upvotedBy: complaint.upvotedBy.length,
       downvotedBy: complaint.downvotedBy.length
     });
