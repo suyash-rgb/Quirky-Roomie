@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login as loginApi } from "../services/api";
 import { useAuth } from '../context/useAuth';
+import Footer from "../components/Footer";
 
 const LoginPage = () => {
   const { login, setUser } = useAuth(); 
@@ -92,7 +93,9 @@ const LoginPage = () => {
       <button type="submit" className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">
         Login
       </button>
+
     </form>
+    
   );
 };
 

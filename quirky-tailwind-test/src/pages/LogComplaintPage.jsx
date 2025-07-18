@@ -1,9 +1,19 @@
 import ComplaintForm from "../components/Complaint Form/ComplaintForm";
+import Footer from '../components/Footer';
 
 const LogComplaintPage = () => (
-  <main className="min-h-screen bg-gray-50 py-10">
-    <ComplaintForm />
-  </main>
+  <div className="flex flex-col min-h-screen bg-gray-50">
+    {/* Main content grows and fills available vertical space */}
+    <main className="flex-grow py-10 overflow-auto">
+      <ComplaintForm />
+    </main>
+    
+    <div className="w-full">
+     {/* Footer content */}
+      <Footer />
+    </div>
+
+  </div>
 );
 
 export default LogComplaintPage;

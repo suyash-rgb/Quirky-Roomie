@@ -43,6 +43,18 @@ const ComplaintForm = () => {
 
   return (
     <section className="max-w-2xl mx-auto p-6 bg-white rounded-md shadow-md mt-10">
+     {/* SVG Background */}
+    <svg
+      className="absolute top-0 left-0 w-full h-full -z-10"
+      viewBox="0 0 1440 320"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill="#A855F7"
+        d="M0,32L60,53.3C120,75,240,117,360,122.7C480,128,600,96,720,101.3C840,107,960,149,1080,176C1200,203,1320,213,1380,218.7L1440,224V0H1380C1320,0,1200,0,1080,0C960,0,840,0,720,0C600,0,480,0,360,0C240,0,120,0,60,0H0Z"
+      />
+    </svg>
+
       <h2 className="text-2xl font-bold mb-6 text-center">Log a Complaint</h2>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input

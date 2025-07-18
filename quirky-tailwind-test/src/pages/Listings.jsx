@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/useAuth';
 import { motion } from 'framer-motion';
 import DashboardSidebar from "../components/Listings/DashboardSidebar";
+import { ArrowUpIcon, ArrowDownIcon } from '@heroicons/react/24/solid';
+
 
 
 import {
@@ -11,6 +13,7 @@ import {
   getLeaderboard,
   getFlatStats
 } from '../services/api';
+import Footer from '../components/Footer';
 
 const Listings = () => {
   const { authToken } = useAuth();
@@ -68,6 +71,9 @@ const Listings = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-10 px-4">
+      {/* Main content should grow and fill available space */}
+     <main className="flex-grow py-10 px-4">
+
       <div className="max-w-6xl mx-auto grid lg:grid-cols-3 gap-8">
         <section className="lg:col-span-2 space-y-6">
           <h1 className="text-4xl font-chewy text-purple-600 mb-4">Flat Complaints</h1>
@@ -94,13 +100,14 @@ const Listings = () => {
                     onClick={() => handleVote(c._id, 'upvote')}
                     className="flex items-center space-x-1 text-green-600 hover:text-green-800"
                   >
-                    👍<span>{c.votes}</span>
+                    <ArrowUpIcon className="w-5 h-5" />
+                    <span>{c.votes}</span>
                   </button>
                   <button
                     onClick={() => handleVote(c._id, 'downvote')}
                     className="flex items-center space-x-1 text-red-600 hover:text-red-800"
                   >
-                    👎
+                    <ArrowDownIcon className="w-5 h-5" />
                   </button>
                 </div>
                 {!c.resolved ? (
@@ -118,10 +125,17 @@ const Listings = () => {
           ))}
         </section>
 
-        <DashboardSidebar leaderboard={leaderboard} />
-
+        <DashboardSidebar leaderboard={leaderboard} /> 
       </div>
+      </main>
+
+      <div className="w-full">
+      {/* footer content */}
+        <Footer/>
+      </div>
+
     </div>
+    
   );
 };
 
