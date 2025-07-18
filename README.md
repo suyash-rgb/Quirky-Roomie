@@ -66,7 +66,7 @@ npm install
 npm run dev
 ```
 
-The React app will now run at `http://localhost:3000`.
+The React + Vite app will now run at `http://localhost:5173`.
 
 
 
