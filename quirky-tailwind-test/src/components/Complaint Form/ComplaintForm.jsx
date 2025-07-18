@@ -3,33 +3,42 @@ import { useState } from "react";
 import ComplaintTypeSelector from "./ComplaintTypeSelector";
 import SeverityPicker from "./SeverityPicker";
 import ComplaintList from "./ComplaintList";
+import { useAuth } from "../../context/useAuth";
+import { logComplaint } from "../../services/api";
+
 
 const ComplaintForm = () => {
+  const { authToken } = useAuth();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [type, setType] = useState("");
   const [severity, setSeverity] = useState("");
   const [complaints, setComplaints] = useState([]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title || !description || !type || !severity) return alert("Please fill all fields");
 
-    const newComplaint = {
-      title,
-      description,
-      type,
-      severity,
-      timestamp: Date.now()
-    };
+    try{
 
-    setComplaints([newComplaint, ...complaints]);
+      const response = await logComplaint(
+       { title, description, type, severity },
+       authToken
+      );
+
+    // Append new complaint to list
+    setComplaints([response.data, ...complaints]);
 
     // Clear form
     setTitle("");
     setDescription("");
     setType("");
     setSeverity("");
+ 
+   } catch (err) {
+     console.error("Error filing complaint:", err.response?.data || err.message);
+     alert("Failed to file complaint");
+   }
   };
 
   return (

@@ -9,7 +9,7 @@ const flatRoutes = require('./routes/flatRoutes');
 const cors = require('cors');
 require('dotenv').config();
 
-const app = express();
+const app = express(); 
 connectDB();
 
 app.use(cors());

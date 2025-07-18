@@ -21,8 +21,9 @@ export const getComplaints = (token) =>
     headers: { Authorization: `Bearer ${token}` },
   });
    
+// File a new Complaint
 export const logComplaint = (data, token) =>
-  api.post('/complaints/resolve', data, {
+  api.post('/complaints', data, {
     headers: { Authorization: `Bearer ${token}` },
   });
 

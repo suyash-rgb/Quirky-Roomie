@@ -1,7 +1,7 @@
 const Complaint = require('../models/Complaint');
 const User = require('../models/User');
 
-// POST /api/complaints
+// POST /api/complaints  
 const fileComplaint = async (req, res) => {
   const { title, description } = req.body;
 
