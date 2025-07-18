@@ -84,47 +84,33 @@ const voteComplaint = async (req, res) => {
   const { voteType } = req.body;
   const voterId = req.user._id;
 
-  console.log("[🗳️ Vote Request] Body:", req.body);
-  console.log("[🗳️ Vote Request] Auth:", req.headers.authorization);
-
   try {
     const complaint = await Complaint.findById(id);
     if (!complaint) return res.status(404).json({ message: "Complaint not found" });
 
+    // Ensure vote arrays exist
     if (!Array.isArray(complaint.upvotedBy)) complaint.upvotedBy = [];
     if (!Array.isArray(complaint.downvotedBy)) complaint.downvotedBy = [];
 
     const hasUpvoted = complaint.upvotedBy.includes(voterId);
     const hasDownvoted = complaint.downvotedBy.includes(voterId);
 
+    // Block double voting or switching without neutralizing first
     if (voteType === 'upvote') {
-      if (hasUpvoted)
-        return res.status(400).json({ message: 'You have already upvoted this complaint.' });
-
-      if (hasDownvoted) {
-        complaint.downvotedBy.pull(voterId);
-        complaint.votes += 1;
-      }
+      if (hasUpvoted || hasDownvoted)
+        return res.status(400).json({ message: 'You’ve already voted. Remove your vote before changing.' });
 
       complaint.upvotedBy.push(voterId);
       complaint.votes += 1;
 
-      // Reward complaint creator with karma
       await User.findByIdAndUpdate(complaint.user, { $inc: { karma: 1 } });
 
     } else if (voteType === 'downvote') {
-      if (hasDownvoted)
-        return res.status(400).json({ message: 'You have already downvoted this complaint.' });
-
-      if (hasUpvoted) {
-        complaint.upvotedBy.pull(voterId);
-        complaint.votes -= 1;
-      }
+      if (hasDownvoted || hasUpvoted)
+        return res.status(400).json({ message: 'You’ve already voted. Remove your vote before changing.' });
 
       complaint.downvotedBy.push(voterId);
       complaint.votes -= 1;
-
-      // (No karma penalty for downvotes, but can be added if needed)
 
     } else {
       return res.status(400).json({ message: 'Invalid vote type' });
@@ -132,15 +118,16 @@ const voteComplaint = async (req, res) => {
 
     await complaint.save();
 
-    res.status(200).json({
+    return res.status(200).json({
       message: 'Vote registered',
       votes: complaint.votes,
       upvotedBy: complaint.upvotedBy.length,
       downvotedBy: complaint.downvotedBy.length
     });
+
   } catch (err) {
     console.error('Vote error:', err);
-    res.status(500).json({ message: 'Server error' });
+    return res.status(500).json({ message: 'Server error' });
   }
 };
 
