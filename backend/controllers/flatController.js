@@ -1,4 +1,3 @@
-// controllers/flatController.js
 const Complaint = require('../models/Complaint');
 const User = require('../models/User');
 const mongoose = require('mongoose');
@@ -7,10 +6,14 @@ exports.getFlatStats = async (req, res) => {
   const { flatCode } = req.query;
 
   if (!flatCode) {
-    return res.status(400).json({ success: false, message: 'flatCode is required' });
+    return res.status(400).json({
+      success: false,
+      message: 'flatCode is required'
+    });
   }
 
   try {
+    //Find all user IDs belonging to the flat
     const userIds = await User.find({ flatCode }).distinct('_id');
 
     if (!userIds.length) {
@@ -20,24 +23,27 @@ exports.getFlatStats = async (req, res) => {
       });
     }
 
+    //Count total and resolved complaints
     const totalComplaints = await Complaint.countDocuments({
-      user: { $in: await User.find({ flatCode }).distinct('_id') }
+      user: { $in: userIds }
     });
 
     const resolvedComplaints = await Complaint.countDocuments({
-      user: { $in: await User.find({ flatCode }).distinct('_id') },
+      user: { $in: userIds },
       status: 'resolved'
     });
 
+    // Fetch top users by karma
     const topUsers = await User.find({ flatCode })
       .sort({ karma: -1 })
       .limit(5)
       .select('name karma');
 
+    //finding common complaint titles
     const commonTitles = await Complaint.aggregate([
       {
         $match: {
-          user: { $in: await User.find({ flatCode }).distinct('_id') }
+          user: { $in: userIds }
         }
       },
       {
@@ -50,7 +56,8 @@ exports.getFlatStats = async (req, res) => {
       { $limit: 5 }
     ]);
 
-    res.json({
+    // Respond with aggregated stats
+    res.status(200).json({
       success: true,
       flatCode,
       totalComplaints,
@@ -59,8 +66,12 @@ exports.getFlatStats = async (req, res) => {
       commonComplaintTitles: commonTitles
     });
 
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false, message: 'Server Error' });
+  } catch (error) {
+    console.error('Error in getFlatStats:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Server Error',
+      error: error.message
+    });
   }
 };

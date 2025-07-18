@@ -56,11 +56,23 @@ const getAllActiveComplaints = async (req, res) => {
 // PUT /api/complaints/:id/resolve
 const resolveComplaint = async (req, res) => {
   const { id } = req.params;
+  const resolverId = req.user._id;
+
   try {
-    const updated = await Complaint.findByIdAndUpdate(id, { status: 'resolved' }, { new: true });
+    const updated = await Complaint.findByIdAndUpdate(
+      id,
+      { status: 'resolved' },
+      { new: true }
+    );
+
     if (!updated) return res.status(404).json({ message: 'Complaint not found' });
+
+    // 💥 Reward resolver with karma
+    await User.findByIdAndUpdate(resolverId, { $inc: { karma: 3 } });
+
     res.status(200).json(updated);
   } catch (error) {
+    console.error('Resolve error:', error);
     res.status(500).json({ message: 'Failed to resolve complaint', error });
   }
 };
@@ -69,59 +81,59 @@ const resolveComplaint = async (req, res) => {
 // PUT /api/complaints/:id/vote
 const voteComplaint = async (req, res) => {
   const { id } = req.params;
-  const { voteType } = req.body; // 'upvote' or 'downvote'
-  const userId = req.user._id;
-  console.log(req.body);  // log the body
-  console.log(req.headers.authorization); // check if token is present
+  const { voteType } = req.body;
+  const voterId = req.user._id;
+
+  console.log("[🗳️ Vote Request] Body:", req.body);
+  console.log("[🗳️ Vote Request] Auth:", req.headers.authorization);
 
   try {
     const complaint = await Complaint.findById(id);
-    if (!complaint) {
-      return res.status(404).json({ message: 'Complaint not found' });
-    }
+    if (!complaint) return res.status(404).json({ message: "Complaint not found" });
 
-    // Ensure upvotedBy and downvotedBy arrays exist
-    if (!Array.isArray(complaint.upvotedBy)) {
-      complaint.upvotedBy = [];
-    }
-    if (!Array.isArray(complaint.downvotedBy)) {
-      complaint.downvotedBy = [];
-    }
+    if (!Array.isArray(complaint.upvotedBy)) complaint.upvotedBy = [];
+    if (!Array.isArray(complaint.downvotedBy)) complaint.downvotedBy = [];
 
-    const hasUpvoted = complaint.upvotedBy.includes(userId); 
-    const hasDownvoted = complaint.downvotedBy.includes(userId); //
+    const hasUpvoted = complaint.upvotedBy.includes(voterId);
+    const hasDownvoted = complaint.downvotedBy.includes(voterId);
 
     if (voteType === 'upvote') {
-      if (hasUpvoted) {
+      if (hasUpvoted)
         return res.status(400).json({ message: 'You have already upvoted this complaint.' });
-      }
+
       if (hasDownvoted) {
-        // Remove downvote first
-        complaint.downvotedBy.pull(userId);
+        complaint.downvotedBy.pull(voterId);
         complaint.votes += 1;
       }
-      complaint.upvotedBy.push(userId);
+
+      complaint.upvotedBy.push(voterId);
       complaint.votes += 1;
 
+      // 💥 Reward complaint creator with karma
+      await User.findByIdAndUpdate(complaint.user, { $inc: { karma: 1 } });
+
     } else if (voteType === 'downvote') {
-      if (hasDownvoted) {
+      if (hasDownvoted)
         return res.status(400).json({ message: 'You have already downvoted this complaint.' });
-      }
+
       if (hasUpvoted) {
-        // Remove upvote first
-        complaint.upvotedBy.pull(userId);
+        complaint.upvotedBy.pull(voterId);
         complaint.votes -= 1;
       }
-      complaint.downvotedBy.push(userId);
+
+      complaint.downvotedBy.push(voterId);
       complaint.votes -= 1;
+
+      // (No karma penalty for downvotes, but can be added if needed)
+
     } else {
       return res.status(400).json({ message: 'Invalid vote type' });
     }
 
     await complaint.save();
-    
-    res.status(200).json({ 
-      message: 'Vote registered', 
+
+    res.status(200).json({
+      message: 'Vote registered',
       votes: complaint.votes,
       upvotedBy: complaint.upvotedBy.length,
       downvotedBy: complaint.downvotedBy.length
