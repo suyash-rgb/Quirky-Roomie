@@ -3,8 +3,10 @@ import { useAuth } from '../context/useAuth';
 import { motion } from 'framer-motion';
 import DashboardSidebar from "../components/Listings/DashboardSidebar";
 import { ArrowUpIcon, ArrowDownIcon } from '@heroicons/react/24/solid';
-import { toast } from 'react-toastify';
+//import { toast } from 'react-toastify';
 import Footer from "../components/Footer";
+import toast from 'react-hot-toast';
+
 
 import {
   getComplaints,
@@ -53,8 +55,13 @@ const Listings = () => {
 
   const handleVote = async (id, type) => {
     try {
-      await voteComplaint(id, type, authToken);
+      const response = await voteComplaint(id, type, authToken);
       toast.success("Vote registered!");
+
+      if (response?.data?.punishment) {
+       toast.info(`Auto-punishment suggested: ${response.data.punishment}`);
+      }
+
       fetchAll();
     } catch (err) {
       console.error('Vote error:', err);

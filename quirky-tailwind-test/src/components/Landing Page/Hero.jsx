@@ -1,8 +1,10 @@
 import React from 'react'
 import { motion } from 'framer-motion'
-//import RoomieIllustration from '../assets/roomie-illustration.png'
+import { useNavigate } from 'react-router-dom';
 
 const Hero = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="bg-dark-slate text-off-white py-24 px-6 text-center relative overflow-hidden">
       {/* SVG Illustration
@@ -54,6 +56,7 @@ const Hero = () => {
         whileTap={{ scale: 0.95 }}
         animate={{ y: [0, -5, 0] }}
         transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+        onClick={() => navigate('/dashboard')}
       >
         Explore Listings
       </motion.button>

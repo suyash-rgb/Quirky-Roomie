@@ -8,7 +8,7 @@ const Features = () => {
       { title: "Intuitive Filters", icon: "🎯", desc: "Search by amenities, price range, availability, and more." },
       { title: "Interactive Reviews", icon: "💬", desc: "See what real tenants say before making your decision." }
     ].map(({ title, icon, desc }) => (
-      <div key={title} className="p-6 border rounded-lg shadow-sm">
+      <div key={title} className="p-6 border rounded-lg shadow-sm transform transition duration-300 hover:scale-105">
         <div className="text-4xl mb-4">{icon}</div>
         <h3 className="font-heading text-xl font-semibold mb-2">{title}</h3>
         <p className="font-body text-base">{desc}</p>

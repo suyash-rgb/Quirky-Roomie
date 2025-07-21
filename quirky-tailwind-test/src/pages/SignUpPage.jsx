@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { register } from "../services/api";
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import Footer from "../components/Footer";
 
 const SignUpPage = () => {
@@ -124,6 +124,16 @@ const SignUpPage = () => {
       <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
         Sign Up
       </button>
+       <p className="text-center text-sm text-gray-500 mb-4">
+          Already have an account?{" "}
+          <span
+           onClick={() => navigate("/login")}
+           className="text-purple-600 hover:text-purple-800 font-medium cursor-pointer underline"
+          >
+            Log In
+          </span>
+       </p>
+
     </form>
     </main>
 

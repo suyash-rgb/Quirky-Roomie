@@ -7,6 +7,8 @@ import Landing from './pages/Landing';
 import Listings from './pages/Listings';
 import LogComplaintPage from './pages/LogComplaintPage';
 import PrivateRoute from "./components/ProtectedRoute";
+import { Toaster } from 'react-hot-toast';
+
 
 function App() {
 

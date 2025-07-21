@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login as loginApi } from "../services/api";
 import { useAuth } from '../context/useAuth';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import Footer from "../components/Footer";
 
 
@@ -72,6 +72,8 @@ const LoginPage = () => {
       </svg>
       
       <h2 className="text-2xl font-bold text-center mb-4">Login</h2>
+      
+      
 
       <input
         name="email"
@@ -98,6 +100,16 @@ const LoginPage = () => {
       <button type="submit" className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">
         Login
       </button>
+
+      <p className="text-center text-sm text-gray-500 mb-4">
+        Don't have an account yet?{" "}
+        <span
+          onClick={() => navigate("/signup")}
+          className="text-purple-600 hover:text-purple-800 font-medium cursor-pointer underline"
+        >
+          Sign up here
+        </span>
+     </p>
 
     </form>
     </main>
