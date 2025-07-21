@@ -2,7 +2,7 @@
 
 A collaborative platform for flatmates to log household complaints, vote on issues, resolve them, and earn karma points—all wrapped in a fun, gamified experience.
 
-![Alt text](https://github.com/suyash-rgb/Quirky-Roomie/blob/c2b87ecd8611db9437c4d3c6ac4682824c9474c6/images/quirky_roomie%20concept.png)
+![Alt text](https://github.com/suyash-rgb/Quirky-Roomie/blob/79ab3e73dcbc18a61ef5e9f79553ecda0410ae0d/concept.png)
 
 ---
 
