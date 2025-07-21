@@ -40,7 +40,7 @@ Roommates upvote or downvote complaints. The complaint with most upvotes becomes
 Downvoted complaints disappear after 3 days, resolved ones earn you karma — and the monthly leaderboard crowns your “Best Flatmate”.
 
 🎯 **Punishment Generator**
-This one's fun — once a complaint crosses 10 upvotes, Gemini API steps in to suggest quirky punishments like: <br>
+This one's fun — once a complaint crosses 10 upvotes, Gemini API steps in to suggest quirky punishments like: <br><br>
 “You owe everyone samosas” 🍽️  
 or  
 “You’re on chai duty for a week” ☕
