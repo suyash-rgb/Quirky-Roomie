@@ -26,6 +26,29 @@ Quirky Roomie lets flatmates:
 
 ---
 
+## Features
+👥 **User Auth & Management**
+Users log in, join flat groups via unique flat codes, and JWT keeps everything secure.
+
+📝 **Complaint Logging**
+Flatmates file complaints with titles, descriptions, types like Noise or Bills, and even severity levels — from “mild” to “nuclear”. Yep, household diplomacy in JSON.
+
+📊 **Voting System**
+Roommates upvote or downvote complaints. The complaint with most upvotes becomes “Flatmate Problem of the Week” — because drama loves spotlight.
+
+🕒 **Auto-Archiving & Resolution**
+Downvoted complaints disappear after 3 days, resolved ones earn you karma — and the monthly leaderboard crowns your “Best Flatmate”.
+
+🎯 **Punishment Generator**
+This one's fun — once a complaint crosses 10 upvotes, Gemini API steps in to suggest quirky punishments like:
+“You owe everyone samosas” 🍽️  
+or  
+“You’re on chai duty for a week” ☕
+
+📈 **Leaderboard & Stats**
+Track who causes the most chaos, top complaint categories, and bragging rights for karma points.
+
+
 ## Installation & Setup
 
 ### 1. Backend Setup Guide (Node.js + Express + Gemini API)
