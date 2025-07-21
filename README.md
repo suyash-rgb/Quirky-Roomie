@@ -48,7 +48,8 @@ or
 📈 **Leaderboard & Stats**
 Track who causes the most chaos, top complaint categories, and bragging rights for karma points.
 
-<br><br>
+---
+
 ## Installation & Setup
 
 ### 1. Backend Setup Guide (Node.js + Express + Gemini API)
